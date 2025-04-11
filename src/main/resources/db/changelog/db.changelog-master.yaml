@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: "db/v1.1__create-book-table.sql"
+      relativeToChangelogFile: true
