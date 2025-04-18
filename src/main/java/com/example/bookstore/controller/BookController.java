@@ -31,6 +31,11 @@ public class BookController {
         return ResponseEntity.ok(bookService.getBookById(id));
     }
 
+    @GetMapping("/{isbn}")
+    public ResponseEntity<Book> getBookByIsbn(@PathVariable String isbn) {
+        return ResponseEntity.ok(bookService.getBookByIsbn(isbn));
+    }
+
     @PostMapping
     public ResponseEntity<Book> createBook(@RequestBody Book book) {
         return new ResponseEntity<>(bookService.createBook(book), HttpStatus.CREATED);
@@ -48,7 +53,7 @@ public class BookController {
     }
 
     @PostMapping("/{id}/purchase")
-    public ResponseEntity updateBookStocks(@PathVariable Long id, @RequestBody PurchaseRequest purchaseRequest) {
+    public ResponseEntity<Book> updateBookStocks(@PathVariable Long id, @RequestBody PurchaseRequest purchaseRequest) {
         return ResponseEntity.ok(bookService.updateBookStocks(id, purchaseRequest.getQuantity()));
     }
 

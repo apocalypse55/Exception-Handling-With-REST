@@ -60,4 +60,9 @@ public class BookService {
         book.setStock(book.getStock() - quantity);
         return bookRepository.save(book);
     }
+
+    public Book getBookByIsbn(String isbn) {
+        return bookRepository.findByIsbn(isbn)
+                .orElseThrow(() -> new BookNotFoundException("Book not found with ISBN: " + isbn));
+    }
 }
