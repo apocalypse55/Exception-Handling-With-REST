@@ -67,15 +67,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex, WebRequest request) {
-//        ErrorResponse errorResponse = ErrorResponse.builder()
-//                .timestamp(LocalDateTime.now())
-//                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-//                .error("Book with the same id already exists")
-//                .message("An unexpected error occurred")
-//                .path(request.getDescription(false).replace("uri=", ""))
-//                .build();
-//        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
+    @ExceptionHandler(InsufficientStockException.class)
+    public ResponseEntity<ErrorResponse> handleInsufficientStockException(InsufficientStockException ex, WebRequest request) {
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .error("Insufficient Stock")
+                .message(ex.getMessage())
+                .path(request.getDescription(false).replace("uri=", ""))
+                .build();
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+
 }

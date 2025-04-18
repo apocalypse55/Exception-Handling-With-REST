@@ -2,6 +2,7 @@ package com.example.bookstore.service;
 
 import com.example.bookstore.exception.BookAlreadyExistsException;
 import com.example.bookstore.exception.BookNotFoundException;
+import com.example.bookstore.exception.InsufficientStockException;
 import com.example.bookstore.model.Book;
 import com.example.bookstore.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
@@ -46,5 +47,17 @@ public class BookService {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException("Book not found with ID: " + id));
         bookRepository.delete(book);
+    }
+
+    public Book updateBookStocks(Long id, int quantity) {
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new BookNotFoundException("Book not found with ID: " + id));
+
+        if (book.getStock() < quantity) {
+            throw new InsufficientStockException("Insufficient stock for book with ID: " + id);
+        }
+
+        book.setStock(book.getStock() - quantity);
+        return bookRepository.save(book);
     }
 }

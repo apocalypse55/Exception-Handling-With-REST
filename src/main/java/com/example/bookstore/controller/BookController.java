@@ -1,11 +1,11 @@
 package com.example.bookstore.controller;
 
+import com.example.bookstore.dto.PurchaseRequest;
 import com.example.bookstore.model.Book;
 import com.example.bookstore.service.BookService;
 //import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,4 +46,10 @@ public class BookController {
         bookService.deleteBook(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/{id}/purchase")
+    public ResponseEntity updateBookStocks(@PathVariable Long id, @RequestBody PurchaseRequest purchaseRequest) {
+        return ResponseEntity.ok(bookService.updateBookStocks(id, purchaseRequest.getQuantity()));
+    }
+
 }

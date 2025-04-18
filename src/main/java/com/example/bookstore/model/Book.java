@@ -44,8 +44,9 @@ public class Book {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(name = "stock", nullable = false)
+    private int stock;
 
-    private void setId(Long id) {
-        this.id = id;
-    }
+
+
 }
