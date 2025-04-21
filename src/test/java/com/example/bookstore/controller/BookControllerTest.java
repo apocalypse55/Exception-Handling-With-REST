@@ -5,8 +5,10 @@ import com.example.bookstore.service.BookService;
 import org.apache.catalina.LifecycleState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -18,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class BookControllerTest {
 
     @Mock
@@ -73,7 +76,7 @@ public class BookControllerTest {
 
         ResponseEntity<Book> response = bookController.createBook(testBook);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(testBook.getTitle(), response.getBody().getTitle());
         verify(bookService, times(1)).createBook(testBook);

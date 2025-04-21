@@ -79,7 +79,7 @@ public class BookServiceTest {
     @Test
     void createBook_WhenIsbnDoesNotExist_ShouldCreateBook() {
 
-        when(bookRepository.findByIsbn(Long.valueOf(anyString()))).thenReturn(Optional.empty());
+        when(bookRepository.findByIsbn(anyLong())).thenReturn(Optional.empty());
         when(bookRepository.save(any(Book.class))).thenReturn(testBook);
 
 
@@ -94,7 +94,7 @@ public class BookServiceTest {
 
     @Test
     void createBook_whenIsbnExists_ShouldThrowException() {
-        when(bookRepository.findByIsbn(Long.valueOf(anyString()))).thenReturn(Optional.of(testBook));
+        when(bookRepository.findByIsbn(anyLong())).thenReturn(Optional.of(testBook));
 
         assertThrows(BookAlreadyExistsException.class, () -> bookService.createBook(testBook));
         verify(bookRepository, times(1)).findByIsbn(testBook.getIsbn());

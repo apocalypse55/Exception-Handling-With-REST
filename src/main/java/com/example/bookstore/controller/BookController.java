@@ -23,7 +23,7 @@ public class BookController {
     @GetMapping
     public ResponseEntity<List<Book>> getAllBooks() {
         List<Book> books = bookService.getAllBooks();
-        return ResponseEntity.ok(bookService.getAllBooks());
+        return ResponseEntity.ok(books);
     }
 
     @GetMapping("/{id}")
