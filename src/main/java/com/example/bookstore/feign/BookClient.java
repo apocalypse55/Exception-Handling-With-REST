@@ -16,12 +16,19 @@ public interface BookClient {
     @GetMapping("")
     List<Book> getAllBooks();
 
+    @PostMapping()
+    Book createBook(@RequestBody Book book);
 
     @GetMapping ("/name/{title}")
     Book getBookByName(@PathVariable String title);
 
     @PutMapping("/purchase/{id}")
     Book updateBookStocks(@PathVariable Long id, @RequestBody Book bookDetails);
+
+    @GetMapping("/{id}")
+    Book getBookById(@PathVariable Long id);
+
+
 
 
 

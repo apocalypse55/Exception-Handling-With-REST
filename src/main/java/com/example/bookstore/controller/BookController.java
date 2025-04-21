@@ -1,14 +1,13 @@
 package com.example.bookstore.controller;
 
-import com.example.bookstore.dto.PurchaseRequest;
 import com.example.bookstore.model.Book;
 import com.example.bookstore.service.BookService;
 //import lombok.RequiredArgsConstructor;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
 import java.util.List;
 
 @RestController
@@ -51,6 +50,7 @@ public class BookController {
         return ResponseEntity.ok(bookService.updateBook(id, bookDetails));
     }
 
+    @Hidden
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
         bookService.deleteBook(id);
@@ -58,7 +58,7 @@ public class BookController {
     }
 
     @PutMapping("/{id}/purchase")
-    public ResponseEntity<Book> updateBookStocks(@PathVariable Long id, @RequestBody PurchaseRequest purchaseRequest) {
+    public ResponseEntity<Book> updateBookStocks(@PathVariable Long id, @RequestBody Book purchaseRequest) {
         return ResponseEntity.ok(bookService.updateBookStocks(id));
     }
 

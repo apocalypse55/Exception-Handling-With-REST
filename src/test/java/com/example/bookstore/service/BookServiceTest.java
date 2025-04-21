@@ -38,7 +38,7 @@ public class BookServiceTest {
         testBook.setTitle("Test Book");
         testBook.setAuthor("Test Author");
         testBook.setPrice(19.99);
-        testBook.setIsbn("1234567890");
+        testBook.setIsbn(1L);
         testBook.setCreatedAt(LocalDateTime.now());
         testBook.setUpdatedAt(LocalDateTime.now());
     }
@@ -107,7 +107,7 @@ public class BookServiceTest {
         updatedBook.setTitle("Updated Title");
         updatedBook.setAuthor("Updated Author");
         updatedBook.setPrice(29.99);
-        updatedBook.setIsbn("0987654321");
+        updatedBook.setIsbn(1L);
 
         when(bookRepository.findById(anyLong())).thenReturn(Optional.of(testBook));
         when(bookRepository.save(any(Book.class))).thenReturn(testBook);
@@ -155,5 +155,67 @@ public class BookServiceTest {
         assertThrows(BookNotFoundException.class, () -> bookService.deleteBook(1L));
         verify(bookRepository, times(1)).findById(1L);
         verify(bookRepository, never()).delete(any(Book.class));
+    }
+
+    @Test
+    void getBookByIsbn_ShouldReturnBook_WhenBookExists() {
+        when(bookRepository.findByIsbn(anyLong())).thenReturn(Optional.of(testBook));
+
+        Book foundBook = bookService.getBookByIsbn(1L);
+
+        assertNotNull(foundBook);
+        assertEquals(testBook.getTitle(), foundBook.getTitle());
+        verify(bookRepository, times(1)).findByIsbn(1L);
+    }
+
+    @Test
+    void getBookByIsbn_WhenBookDoesNotExist_ShouldThrowException() {
+
+        when(bookRepository.findByIsbn(anyLong())).thenReturn(Optional.empty());
+
+        assertThrows(BookNotFoundException.class, () -> bookService.getBookByIsbn(1L));
+        verify(bookRepository, times(1)).findByIsbn(1L);
+    }
+
+    @Test
+    void getBookByName_ShouldReturnBook_WhenBookExists() {
+        when(bookRepository.findByTitle(anyString())).thenReturn(Optional.of(testBook));
+
+        Book foundBook = bookService.getBookByName("Test Book");
+
+        assertNotNull(foundBook);
+        assertEquals(testBook.getTitle(), foundBook.getTitle());
+        verify(bookRepository, times(1)).findByTitle("Test Book");
+    }
+
+    @Test
+    void getBookByName_WhenBookDoesNotExist_ShouldThrowException() {
+
+        when(bookRepository.findByTitle(anyString())).thenReturn(Optional.empty());
+
+        assertThrows(BookNotFoundException.class, () -> bookService.getBookByName("Test Book"));
+        verify(bookRepository, times(1)).findByTitle("Test Book");
+    }
+
+    @Test
+    void updateBookStocks_ShouldUpdateBookStock_WhenBookExists() {
+
+        when(bookRepository.findById(anyLong())).thenReturn(Optional.of(testBook));
+        when(bookRepository.save(any(Book.class))).thenReturn(testBook);
+        Book updatedBook = bookService.updateBookStocks(1L);
+        assertNotNull(updatedBook);
+        assertEquals(testBook.getStock() - 1, updatedBook.getStock());
+        verify(bookRepository, times(1)).findById(1L);
+        verify(bookRepository, times(1)).save(testBook);
+    }
+
+    @Test
+    void updateBookStocks_WhenBookDoesNotExist_ShouldThrowException() {
+
+        when(bookRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThrows(BookNotFoundException.class, () -> bookService.updateBookStocks(1L));
+        verify(bookRepository, times(1)).findById(1L);
+        verify(bookRepository, never()).save(any(Book.class));
     }
 }
