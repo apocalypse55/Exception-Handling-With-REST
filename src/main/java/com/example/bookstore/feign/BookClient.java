@@ -13,14 +13,18 @@ import java.util.List;
 @FeignClient(name = "bookClient", url = "http://192.168.1.151:8082", path = "/api/books")
 public interface BookClient {
 
-//    @GetMapping("/{isbn}")
-//    Book getBookById(@PathVariable("isbn") String isbn);
-
-    @PostMapping("")
-     List<Book> createBook(@RequestBody Book book);
-
-
     @GetMapping("")
     List<Book> getAllBooks();
+
+
+    @GetMapping ("/name/{title}")
+    Book getBookByName(@PathVariable String title);
+
+    @PutMapping("/purchase/{id}")
+    Book updateBookStocks(@PathVariable Long id, @RequestBody Book bookDetails);
+
+
+
+
 
 }

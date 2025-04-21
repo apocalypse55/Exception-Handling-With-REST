@@ -10,6 +10,7 @@ import org.antlr.v4.runtime.misc.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Entity
@@ -34,7 +35,7 @@ public class Book {
     private double price;
 
     @Column(name = "isbn", nullable = false, unique = true)
-    private String isbn;
+    private long isbn;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

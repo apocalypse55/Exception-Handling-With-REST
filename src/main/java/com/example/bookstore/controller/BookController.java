@@ -8,11 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/books")
-
+@CrossOrigin("*")
 public class BookController {
     private final BookService bookService;
 
@@ -31,9 +32,13 @@ public class BookController {
         return ResponseEntity.ok(bookService.getBookById(id));
     }
 
-    @GetMapping("/{isbn}")
-    public ResponseEntity<Book> getBookByIsbn(@PathVariable String isbn) {
+    @GetMapping("/search/{isbn}")
+    public ResponseEntity<Book> getBookByIsbn(@PathVariable Long isbn) {
         return ResponseEntity.ok(bookService.getBookByIsbn(isbn));
+    }
+    @GetMapping("/name/{title}")
+    public ResponseEntity<Book> getBookByName(@PathVariable String title) {
+        return ResponseEntity.ok(bookService.getBookByName(title));
     }
 
     @PostMapping
@@ -52,9 +57,9 @@ public class BookController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{id}/purchase")
+    @PutMapping("/{id}/purchase")
     public ResponseEntity<Book> updateBookStocks(@PathVariable Long id, @RequestBody PurchaseRequest purchaseRequest) {
-        return ResponseEntity.ok(bookService.updateBookStocks(id, purchaseRequest.getQuantity()));
+        return ResponseEntity.ok(bookService.updateBookStocks(id));
     }
 
 }
