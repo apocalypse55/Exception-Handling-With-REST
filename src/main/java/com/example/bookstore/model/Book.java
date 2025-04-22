@@ -48,6 +48,4 @@ public class Book {
     @Column(name = "stock", nullable = false)
     private int stock;
 
-
-
 }

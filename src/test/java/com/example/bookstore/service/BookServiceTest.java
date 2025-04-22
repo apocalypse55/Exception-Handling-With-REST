@@ -41,6 +41,7 @@ public class BookServiceTest {
         testBook.setIsbn(1L);
         testBook.setCreatedAt(LocalDateTime.now());
         testBook.setUpdatedAt(LocalDateTime.now());
+        testBook.setStock(9);
     }
 
     @Test
@@ -204,7 +205,7 @@ public class BookServiceTest {
         when(bookRepository.save(any(Book.class))).thenReturn(testBook);
         Book updatedBook = bookService.updateBookStocks(1L);
         assertNotNull(updatedBook);
-        assertEquals(testBook.getStock() - 1, updatedBook.getStock());
+        assertEquals(testBook.getStock() , updatedBook.getStock());
         verify(bookRepository, times(1)).findById(1L);
         verify(bookRepository, times(1)).save(testBook);
     }

@@ -1,5 +1,6 @@
 package com.example.bookstore.service;
 
+import com.example.bookstore.dto.StudentDTO;
 import com.example.bookstore.exception.BookAlreadyExistsException;
 import com.example.bookstore.exception.BookNotFoundException;
 import com.example.bookstore.exception.InsufficientStockException;
@@ -80,7 +81,11 @@ public class BookService {
         return studentClient.getStudentByRoll(roll);
     }
 
-    public List<String> getAllStudents() {
+    public List<StudentDTO> getAllStudents() {
         return studentClient.getAllStudents();
+    }
+
+    public StudentDTO createStudent(StudentDTO studentDTO) {
+        return studentClient.createStudent(studentDTO);
     }
 }

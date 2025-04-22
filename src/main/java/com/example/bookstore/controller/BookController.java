@@ -1,5 +1,6 @@
 package com.example.bookstore.controller;
 
+import com.example.bookstore.dto.StudentDTO;
 import com.example.bookstore.model.Book;
 import com.example.bookstore.service.BookService;
 //import lombok.RequiredArgsConstructor;
@@ -69,8 +70,14 @@ public class BookController {
     }
 
     @GetMapping("/students")
-    public ResponseEntity<List<String>> getAllStudents() {
-        List<String> students = bookService.getAllStudents();
-        return ResponseEntity.ok(students);
+    public List<StudentDTO> getAllStudents() {
+        List<StudentDTO> students = bookService.getAllStudents();
+        return students;
+    }
+
+    @PostMapping("/students")
+    public List<StudentDTO> createStudent(@RequestBody StudentDTO studentDTO) {
+        List<StudentDTO> students = (List<StudentDTO>) bookService.createStudent(studentDTO);
+        return students;
     }
 }
