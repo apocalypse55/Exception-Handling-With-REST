@@ -3,6 +3,7 @@ package com.example.bookstore.service;
 import com.example.bookstore.exception.BookAlreadyExistsException;
 import com.example.bookstore.exception.BookNotFoundException;
 import com.example.bookstore.exception.InsufficientStockException;
+import com.example.bookstore.feign.StudentClient;
 import com.example.bookstore.model.Book;
 import com.example.bookstore.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class BookService {
+    private final StudentClient studentClient;
     private final BookRepository bookRepository;
 
     public List<Book> getAllBooks() {
@@ -24,6 +26,7 @@ public class BookService {
         return bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException("Book not found with ID: " + id));
     }
+
     public Book getBookByName(String title) {
         return bookRepository.findByTitle(title)
                 .orElseThrow(() -> new BookNotFoundException("Book not found with name: " + title));
@@ -73,4 +76,11 @@ public class BookService {
                 .orElseThrow(() -> new BookNotFoundException("Book not found with ISBN: " + isbn));
     }
 
+    public String getStudentByRoll(Long roll) {
+        return studentClient.getStudentByRoll(roll);
+    }
+
+    public List<String> getAllStudents() {
+        return studentClient.getAllStudents();
+    }
 }

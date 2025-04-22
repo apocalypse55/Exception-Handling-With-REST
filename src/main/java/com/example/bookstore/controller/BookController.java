@@ -62,4 +62,15 @@ public class BookController {
         return ResponseEntity.ok(bookService.updateBookStocks(id));
     }
 
+    @GetMapping("/student")
+    public ResponseEntity<String> getStudentByRoll() {
+        String studentDetails = bookService.getStudentByRoll(33L);
+        return ResponseEntity.ok(studentDetails);
+    }
+
+    @GetMapping("/students")
+    public ResponseEntity<List<String>> getAllStudents() {
+        List<String> students = bookService.getAllStudents();
+        return ResponseEntity.ok(students);
+    }
 }
